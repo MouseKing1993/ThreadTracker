@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffffff">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/titleText"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#ff00bc71"
+        android:textColor="#ffffffff"
+        android:gravity="center_vertical"
+        android:paddingLeft="56dp"
+        android:text="Details"
+        android:textSize="16sp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backBtn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        app:srcCompat="@mipmap/threadtracker_arrow_back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/titleText">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/infoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="14sp"
+                android:textColor="#f222"
+                tools:text="Thread info"
+                android:gravity="center_vertical"
+                android:background="#2500bc71"
+                android:paddingLeft="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/infoTitleTipsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/infoTitleTips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#f444"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="#ffeaf9ff"
+                    android:text="Belong to thread-pool" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/infoTitleJump"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#ff2222ee"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:text="Show detail" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/infoDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#f444"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stack1Title"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="14sp"
+                android:textColor="#f222"
+                tools:text="Call stack"
+                android:gravity="center_vertical"
+                android:background="#2500bc71"
+                android:paddingLeft="20dp" />
+
+            <RelativeLayout
+                android:id="@+id/stack1TipsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stack1Tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#f444"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:background="#ffeaf9ff"
+                    tools:text="Call from thread 1432" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/stack1Jump"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#ff2222ee"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:text="Show detail"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stack1Details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#f444"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stack2Title"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textSize="14sp"
+                android:textColor="#f222"
+                android:text="Running Stack"
+                android:gravity="center_vertical"
+                android:background="#2500bc71"
+                android:paddingLeft="20dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/stack2Details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#f444"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="TODO" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
+</RelativeLayout>

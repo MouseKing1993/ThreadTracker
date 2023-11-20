@@ -1,0 +1,95 @@
+package com.amber.lib.thread_tracker_plugin;
+
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+class ThreadTrackerClassVisitor extends ClassVisitor implements Opcodes {
+
+    private String className;
+    private boolean changingSuper = false; // 是否处于改继承状态
+    private boolean buildingPackage = false; // 是否处于建立用户可达代码包列表中
+    private String jarName; // 不是jar包则为空
+
+    public ThreadTrackerClassVisitor(ClassVisitor cv, String jarName) {
+        super(Opcodes.ASM6, cv);
+        this.jarName = jarName;
+    }
+
+    @Override
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        changingSuper = false;
+        buildingPackage = false;
+        className = name;
+
+        if (filterClass(className)) {
+            super.visit(version, access, name, signature, superName, interfaces);
+            return;
+        }
+
+        // 用来获取用户可达代码的包名列表，用于调用栈内高亮显示
+        if (jarName != null && className.contains("com/amber/lib/thread_tracker")) {
+            if (className.equals("com/amber/lib/thread_tracker/UserPackage")) {
+                buildingPackage = true;
+            }
+        } else {
+            if (jarName != null) {
+                // 如果项目分module，此时其他module代码可能已经被打成jar
+                if (PluginUtils.inProjectList(jarName)) {
+                    PluginUtils.addClassPath(className);
+                }
+            } else {
+                PluginUtils.addClassPath(className);
+            }
+        }
+
+        if (!buildingPackage && (access & Opcodes.ACC_SUPER) > 0) {
+            switch (superName) {
+                case ClassConstant.S_Thread:
+                    changingSuper = true;
+                    super.visit(version, access, name, signature, ClassConstant.S_TBaseThread, interfaces);
+                    return;
+                case ClassConstant.S_ThreadPoolExecutor:
+                    changingSuper = true;
+                    super.visit(version, access, name, signature, ClassConstant.S_TBaseThreadPoolExecutor, interfaces);
+                    return;
+                case ClassConstant.S_ScheduledThreadPoolExecutor:
+                    changingSuper = true;
+                    super.visit(version, access, name, signature, ClassConstant.S_TBaseScheduledThreadPoolExecutor, interfaces);
+                    return;
+                case ClassConstant.S_Timer:
+                    changingSuper = true;
+                    super.visit(version, access, name, signature, ClassConstant.S_TBaseTimer, interfaces);
+                    return;
+                case ClassConstant.S_HandlerThread:
+                    changingSuper = true;
+                    super.visit(version, access, name, signature, ClassConstant.S_TBaseHandlerThread, interfaces);
+                    return;
+            }
+        }
+        super.visit(version, access, name, signature, superName, interfaces);
+    }
+
+    @Override
+    public MethodVisitor visitMethod(int access0, String name0, String desc0, String signature0, String[] exceptions) {
+        MethodVisitor mv = cv.visitMethod(access0, name0, desc0, signature0, exceptions);
+        if (filterClass(className)) {
+            return mv;
+        }
+
+        if (changingSuper) { // 改继承
+            mv = new ChangeSuperMethodVisitor(ASM6, mv, className);
+        } else {
+            if (buildingPackage && name0.equals("buildPackageList")) {
+                mv = new AddPackageMethodVisitor(ASM6, mv);
+            } else {
+                mv = new ChangeProxyMethodVisitor(ASM6, mv, className);
+            }
+        }
+
+        return mv;
+    }
+
+    private boolean filterClass(String className) {
+        return className.contains("com/amber/lib/thread_tracker/proxy");
+    }
+}

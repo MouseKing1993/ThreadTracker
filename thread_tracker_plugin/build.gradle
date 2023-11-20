@@ -1,0 +1,35 @@
+plugins {
+    id 'groovy'
+    id 'maven-publish'
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.2.0'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/groovy'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+}
+
+tasks.withType(Copy).all{
+    duplicatesStrategy 'exclude'
+}
+publishing {
+    publications{
+        plugin(MavenPublication){
+            groupId = 'com.amber.lib'
+            artifactId = 'thread-tracker-plugin'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}

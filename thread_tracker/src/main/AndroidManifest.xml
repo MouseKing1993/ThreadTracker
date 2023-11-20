@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.amber.lib.thread_tracker">
+
+    <application android:allowBackup="true">
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.amber.lib.thread_tracker.ThreadTrackerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <activity
+            android:name=".ui.TrackerActivity"
+            android:icon="@mipmap/threadtracker_launcher"
+            android:label="ThreadTracker"
+            android:launchMode="singleTask"
+            android:roundIcon="@mipmap/threadtracker_launcher_round"
+            android:taskAffinity="com.codoon.threadtracker.task"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:exported="false"
+            android:name=".ui.ThreadDetailsActivity"
+            android:taskAffinity="com.codoon.threadtracker.task" />
+
+    </application>
+
+</manifest>
